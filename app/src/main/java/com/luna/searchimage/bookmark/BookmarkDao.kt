@@ -1,10 +1,7 @@
 package com.luna.searchimage.bookmark
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.luna.searchimage.bookmark.Bookmark
 import com.luna.searchimage.data.Image
 
@@ -17,7 +14,7 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark_list WHERE id = :id")
     fun getBookmark(id: Int): LiveData<Bookmark>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(bookmark: Bookmark)
 
     @Update
