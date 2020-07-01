@@ -13,7 +13,7 @@ import com.luna.searchimage.data.ImageDataSourceFactory
 
 class ImageListViewModel(
     context: Context,
-    var keyword: String
+    keyword: String
 ) : ViewModel() {
 
     private val TAG = ImageListViewModel::class.java.simpleName
@@ -21,7 +21,6 @@ class ImageListViewModel(
     private var liveDataSource: LiveData<ImageDataSource>
     init {
 
-        Log.d(TAG, ">>> 검색 스타트: $keyword")
         val itemDataSourceFactory = ImageDataSourceFactory(context, keyword)
         liveDataSource = itemDataSourceFactory.imageLiveDataSource
         val config = PagedList.Config.Builder()

@@ -64,7 +64,7 @@ class ImageDataSource(
                     else {
                         //if(ImageL.SHOW_SEARCH_RESULT_MESSAGE)
                             Toast.makeText(mCtx, "총 ${meta.totalCount}건의 이미지가 조회되었습니다.",
-                                Toast.LENGTH_LONG
+                                Toast.LENGTH_SHORT
                             ).show()
                     }
 

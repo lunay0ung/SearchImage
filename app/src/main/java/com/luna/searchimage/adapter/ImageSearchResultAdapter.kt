@@ -45,16 +45,6 @@ class ImageSearchResultAdapter(
         private val TAG = ImageViewHolder::class.java.simpleName
         private val thumb = view.thumbnail
         private val siteName = view.siteName
-       /*
-          private val title = view.title
-        private val salePrice = view.price
-        private val author = view.author
-        private val publisher = view.publisher
-        private val translator = view.translator
-        private val currencyFormat = NumberFormat.getCurrencyInstance()
-        private val status = view.status
-        */
-
 
         fun bind(image: Image) {
 
@@ -66,25 +56,6 @@ class ImageSearchResultAdapter(
                 .into(thumb)
 
             siteName.text = image.siteName
-            /*
-               val formattedSalePrice = currencyFormat.format(book.sale_price)
-            val formattedPrice = currencyFormat.format(book.price)
-            val authors = book.authors!!
-                .joinToString(separator = ", ")
-
-            title.text = book.title
-            salePrice.text = formattedSalePrice+" (정가: ${formattedPrice})"
-            publisher.text = book.publisher
-            author.text = authors
-            if(!book.translators.isNullOrEmpty()) {
-                val translators = book.translators!!
-                    .joinToString(separator = ", ")
-                translator.text = "| $translators"
-            }
-
-            status.text = book.status
-             */
-
         }
     }
 

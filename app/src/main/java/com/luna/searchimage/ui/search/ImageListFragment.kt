@@ -24,7 +24,7 @@ import com.luna.searchimage.adapter.ImageSearchResultAdapter
 import com.luna.searchimage.data.Image
 import kotlinx.android.synthetic.main.activity_main.*
 
-class ImageListFragment : Fragment(), updatable{
+class ImageListFragment : Fragment() {
 
     private val TAG = ImageListFragment::class.java.simpleName
     private lateinit var recyclerView: RecyclerView
@@ -32,7 +32,6 @@ class ImageListFragment : Fragment(), updatable{
     private lateinit var imageListViewModel: ImageListViewModel
     private lateinit var adapter: ImageSearchResultAdapter
     private lateinit var imageClickListener: OnImageClicked
-    var searchWord: String? = "스무디"
 
     private lateinit var mCtx: Context
 
@@ -69,14 +68,10 @@ class ImageListFragment : Fragment(), updatable{
         mCtx = context!!
 
         val args = arguments
-        searchWord = args?.getString("query")
-
+        var searchWord = args?.getString("query")
 
         if(searchWord.isNullOrEmpty())
             searchWord = "스무디"
-
-
-        Log.d(TAG, ">>> 전달받은 검색 키워드: $searchWord")
 
         imageListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -96,12 +91,6 @@ class ImageListFragment : Fragment(), updatable{
 
     }
 
-
-    override fun update() {
-        adapter.notifyDataSetChanged()
-    }
-
-
     interface OnImageClicked {
         fun onImageClicked(image: Image)
     }
@@ -115,9 +104,4 @@ class ImageListFragment : Fragment(), updatable{
                 context.toString() + " must implement OnImageClicked.")
         }
     }
-
-    private fun initViews(searchWord: String){
-
-    }
-
 }

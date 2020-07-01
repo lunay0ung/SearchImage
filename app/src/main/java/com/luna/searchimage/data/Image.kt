@@ -20,7 +20,7 @@ class Image {
     var docUrl: String? = null
     @field:SerializedName("datetime")
     var datetime: String? = null
-    var isBookmarked = false;
+    var isBookmarked = false
 }
 
 /*

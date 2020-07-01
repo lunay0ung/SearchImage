@@ -1,5 +1,6 @@
 package com.luna.searchimage.ui
 
+import android.content.Intent
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import com.luna.searchimage.R
 import com.luna.searchimage.adapter.PagerAdapter
 import com.luna.searchimage.data.Image
 import com.luna.searchimage.ui.bookmark.BookmarkFragment
+import com.luna.searchimage.ui.detail.ImageDetailActivity
 import com.luna.searchimage.ui.search.ImageListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -54,7 +56,6 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.d(TAG, "검색어 변경: "+newText)
                 return true
             }
         })
@@ -62,6 +63,10 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
     }
 
     override fun onImageClicked(image: Image) {
-        Toast.makeText(this, "${image.collection}.", Toast.LENGTH_LONG).show()
+       // Toast.makeText(this, "${image.collection}.", Toast.LENGTH_LONG).show()
+        val intent = Intent(this@MainActivity, ImageDetailActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.putExtra("siteName", image.siteName)
+        intent.putExtra("imageUrl", image.imgUrl)
+        startActivity(intent)
     }
 }
