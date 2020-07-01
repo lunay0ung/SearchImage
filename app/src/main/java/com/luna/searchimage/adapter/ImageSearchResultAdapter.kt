@@ -28,10 +28,7 @@ class ImageSearchResultAdapter(
 
     private val TAG = ImageSearchResultAdapter::class.java.simpleName
 
-    private lateinit var  bookmarkListener: OnBookmarkCheckListener
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.image_list_item, parent, false)
 
@@ -73,20 +70,6 @@ class ImageSearchResultAdapter(
             }
         }
 
-
-
-        /*
-
-        val resourceId = if (imageList[position]!!.isBookmarked) {
-            R.drawable.ic_star
-        } else {
-            R.drawable.ic_star_border
-        }
-        holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
-         */
-
-        //holder.itemView.bookmarkBtn.setOnCheckedChangeListener(mOnCheckedChangeListener)
-        //setUpBookmarkBtn(holder.itemView.bookmarkBtn, imageList[position]!!, position)
     }
 
     fun changeView(holder: ImageViewHolder, position: Int, resourceId: Int) {
@@ -94,24 +77,13 @@ class ImageSearchResultAdapter(
             holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
     }
 
-    fun setUpBookmarkBtn(checkBox: CheckBox, image: Image, position: Int) {
-        checkBox.setOnCheckedChangeListener { _, b ->
-            image.isBookmarked = b
-
-            // detailViewModel.updatePlayer(player)
-            Log.d(TAG, "북마크: ${image.isBookmarked}" )
-        }
-        image.isBookmarked = true
-    }
 
     interface ItemClickListener{
         fun onItemClick(image: Image, position: Int, isBookmarked: Boolean)
         //fun onLongClick(position: Int)
     }
 
-    class ImageViewHolder(
-            view: View
-    ) : RecyclerView.ViewHolder(view) {
+    class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val TAG = ImageViewHolder::class.java.simpleName
         private val thumb = view.thumbnail
         private val siteName = view.siteName
@@ -130,11 +102,6 @@ class ImageSearchResultAdapter(
 
             siteName.text = image.siteName
         }
-    }
-
-
-    interface OnBookmarkCheckListener {
-        fun onBookmarked(image: Image)
     }
 
     companion object {

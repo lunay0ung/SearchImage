@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 class ImageListViewModel(
     context: Context,
     keyword: String
-) : ViewModel(),
-    ImageSearchResultAdapter.OnBookmarkCheckListener
+) : ViewModel()
 {
 
     private val TAG = ImageListViewModel::class.java.simpleName
@@ -43,20 +42,6 @@ class ImageListViewModel(
             .getDatabase(context, viewModelScope, context.resources)
             .bookmarkDao()
         repository = BookmarkRepository(bookmarkDao)
-    }
-
-
-    override fun onBookmarked(image: Image) {
-        val bookmark = Bookmark(0, image.thumbnailUrl.toString(), image.imgUrl.toString(), image.siteName.toString(), true)
-        if(image.isBookmarked) {
-            Log.d(TAG, ">>> 북마크, isBookmarked")
-            insertBookmark(bookmark)
-        }
-        else {
-            Log.d(TAG, ">>> 북마크, deleteBookmark")
-            deleteBookmark(bookmark)
-
-        }
     }
 
     fun insertBookmark(bookmark: Bookmark) = viewModelScope.launch {

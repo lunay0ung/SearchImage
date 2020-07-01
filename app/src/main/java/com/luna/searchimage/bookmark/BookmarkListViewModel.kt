@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.luna.searchimage.data.Image
+import kotlinx.coroutines.launch
 
-class BookmarkViewModel(application: Application) : AndroidViewModel(application){
-
+class BookmarkListViewModel(application: Application) : AndroidViewModel(application){
 
     private val repository: BookmarkRepository
 
@@ -22,5 +22,8 @@ class BookmarkViewModel(application: Application) : AndroidViewModel(application
         return repository.getAllBookmark()
     }
 
+    fun deleteBookmark(bookmark: Bookmark) = viewModelScope.launch {
+        repository.deleteBookmark(bookmark)
+    }
 
 }
