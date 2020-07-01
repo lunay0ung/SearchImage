@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.luna.searchimage.R
@@ -14,7 +15,7 @@ import com.luna.searchimage.ui.detail.ImageDetailActivity
 import com.luna.searchimage.ui.search.ImageListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
+class MainActivity : AppCompatActivity() {
 
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var searchWord : String
@@ -59,13 +60,5 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
         return true
     }
 
-
-    override fun onImageClicked(image: Image) {
-       // Toast.makeText(this, "${image.collection}.", Toast.LENGTH_LONG).show()
-        val intent = Intent(this@MainActivity, ImageDetailActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        intent.putExtra("siteName", image.siteName)
-        intent.putExtra("imageUrl", image.imgUrl)
-        startActivity(intent)
-    }
 
 }

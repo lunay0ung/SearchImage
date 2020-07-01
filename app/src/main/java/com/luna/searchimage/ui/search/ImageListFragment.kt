@@ -1,11 +1,13 @@
 package com.luna.searchimage.ui.search
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -16,6 +18,7 @@ import com.luna.searchimage.R
 import com.luna.searchimage.adapter.ImageSearchResultAdapter
 import com.luna.searchimage.bookmark.Bookmark
 import com.luna.searchimage.data.Image
+import com.luna.searchimage.ui.detail.ImageDetailActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,7 +29,6 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageListViewModel: ImageListViewModel
     private lateinit var adapter: ImageSearchResultAdapter
-    private lateinit var imageClickListener: OnImageClicked
 
     private lateinit var mCtx: Context
 
@@ -55,7 +57,15 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
 
     }
 
-    override fun onItemClick(image: Image, position: Int, isBookmarked: Boolean) {
+
+    override fun onImageClicked(image: Image) {
+        val intent = Intent(context, ImageDetailActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.putExtra("siteName", image.siteName)
+        intent.putExtra("imageUrl", image.imgUrl)
+        startActivity(intent)
+    }
+
+    override fun onBookmarkClicked(image: Image, position: Int, isBookmarked: Boolean) {
         Log.d(TAG, "클릭 $position, $isBookmarked")
         val bookmark = Bookmark(0, image.thumbnailUrl.toString(), image.imgUrl.toString(), image.siteName.toString(), true)
         if(isBookmarked) {
@@ -91,26 +101,11 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
         }).get(ImageListViewModel::class.java)
 
         imageListViewModel.imagePagedList.observe(viewLifecycleOwner, Observer {
-            adapter = ImageSearchResultAdapter(context!!, it, imageClickListener, this)
+            adapter = ImageSearchResultAdapter(context!!, it, this)
             adapter.submitList(it)
             recyclerView.adapter = adapter
         })
 
 
-    }
-
-    interface OnImageClicked {
-        fun onImageClicked(image: Image)
-    }
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnImageClicked) {
-            imageClickListener = context
-        } else {
-            throw ClassCastException(
-                context.toString() + " must implement OnImageClicked.")
-        }
     }
 }

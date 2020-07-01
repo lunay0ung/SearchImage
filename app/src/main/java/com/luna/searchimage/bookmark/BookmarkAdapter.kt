@@ -26,10 +26,6 @@ class BookmarkAdapter(
         notifyDataSetChanged()
     }
 
-        fun setOnBookmarkTapListener(listener: ((Bookmark) -> Unit)) {
-        this.listener = listener
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.image_list_item, parent, false)
@@ -40,12 +36,11 @@ class BookmarkAdapter(
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
         val bookmark = bookmarList[position]
-        /*
-               holder.itemView.setOnClickListener {
-            imageClickListener.onImageClicked(image!!)
+
+        holder.itemView.setOnClickListener {
+            mItemClickListener.onImageClicked(bookmark!!)
         }
 
-         */
         bookmark?.let { holder.bind(it) }
 
 
@@ -60,24 +55,20 @@ class BookmarkAdapter(
         holder.itemView.bookmarkBtn.setOnClickListener {
             if (!bookmark!!.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
                 bookmark.isBookmarked = true
-                mItemClickListener.onItemClick(bookmark, position, true)
-                //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+                mItemClickListener.onBookmarkClicked(bookmark, position, true)
                 changeView(holder, position, resourceId)
 
             } else {
                 bookmark.isBookmarked = false
-                mItemClickListener.onItemClick(bookmark, position, false)
+                mItemClickListener.onBookmarkClicked(bookmark, position, false)
                 changeView(holder, position, resourceId)
-
-                //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
             }
         }
     }
 
-
     interface ItemClickListener{
-        fun onItemClick(bookmark: Bookmark, position: Int, isBookmarked: Boolean)
-        //fun onLongClick(position: Int)
+        fun onBookmarkClicked(bookmark: Bookmark, position: Int, isBookmarked: Boolean)
+        fun onImageClicked(bookmark: Bookmark)
     }
 
     fun changeView(holder: BookmarkViewHolder, position: Int, resourceId: Int) {

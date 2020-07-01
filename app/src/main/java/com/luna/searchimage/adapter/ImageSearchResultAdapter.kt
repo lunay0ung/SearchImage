@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -15,14 +13,12 @@ import com.bumptech.glide.Glide
 import com.luna.searchimage.R
 import com.luna.searchimage.data.Image
 import com.luna.searchimage.ui.search.ImageListFragment
-import com.luna.searchimage.ui.search.ImageListViewModel
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
 class ImageSearchResultAdapter(
     private val context: Context,
     private val imageList: PagedList<Image>,
-    private val imageClickListener: ImageListFragment.OnImageClicked,
     val mItemClickListener:ItemClickListener
 ) : PagedListAdapter<Image, ImageSearchResultAdapter.ImageViewHolder>(IMAGE_COMPARATOR) {
 
@@ -41,7 +37,7 @@ class ImageSearchResultAdapter(
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val image = getItem(position)
         holder.itemView.setOnClickListener {
-            imageClickListener.onImageClicked(image!!)
+            mItemClickListener.onImageClicked(image!!)
         }
         image?.let { holder.bind(it) }
 
@@ -57,13 +53,13 @@ class ImageSearchResultAdapter(
         holder.itemView.bookmarkBtn.setOnClickListener{
             if(!image!!.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
                 image.isBookmarked = true
-                mItemClickListener.onItemClick(image, position, true)
+                mItemClickListener.onBookmarkClicked(image, position, true)
                 //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
                 changeView(holder, position, resourceId)
 
             }else {
                 image.isBookmarked = false
-                mItemClickListener.onItemClick(image, position, false)
+                mItemClickListener.onBookmarkClicked(image, position, false)
                 changeView(holder, position, resourceId)
 
                 //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
@@ -79,8 +75,8 @@ class ImageSearchResultAdapter(
 
 
     interface ItemClickListener{
-        fun onItemClick(image: Image, position: Int, isBookmarked: Boolean)
-        //fun onLongClick(position: Int)
+        fun onBookmarkClicked(image: Image, position: Int, isBookmarked: Boolean)
+        fun onImageClicked(image: Image)
     }
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
