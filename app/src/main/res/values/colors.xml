@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--https://colorhunt.co/palette/179372-->
+    <color name="colorPrimary">#30475e</color>
+    <color name="colorPrimaryDark">#222831</color>
+    <color name="colorAccent">#c1a57b</color>
+    <color name="colorBackground">#ececec</color>
+    <color name="white">#FFFFFF</color>
+</resources>
