@@ -1,13 +1,55 @@
 package com.luna.searchimage.ui.search
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.luna.searchimage.R
+import com.luna.searchimage.adapter.ImageSearchResultAdapter
+import com.luna.searchimage.data.Image
+import kotlinx.android.synthetic.main.activity_main.*
 
-class ImageListFragment : Fragment() {
+class ImageListFragment : Fragment(), updatable{
+
+    private val TAG = ImageListFragment::class.java.simpleName
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var editField: EditText
+    private lateinit var imageListViewModel: ImageListViewModel
+    private lateinit var adapter: ImageSearchResultAdapter
+    private lateinit var imageClickListener: OnImageClicked
+    var searchWord: String? = "스무디"
+
+    private lateinit var mCtx: Context
+
+    companion object {
+        fun newInstance(): ImageListFragment {
+            return ImageListFragment()
+        }
+
+        fun newInstance(query: String): ImageListFragment {
+            val fragment = ImageListFragment()
+            val args = Bundle()
+            args.putString("query", query)
+            fragment.setArguments(args)
+            return fragment
+        }
+        var SHOW_SEARCH_RESULT_MESSAGE =  false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -15,14 +57,67 @@ class ImageListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.image_list_fragment, container, false)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = GridLayoutManager(context, 2)//LinearLayoutManager(context)
+        mCtx = context!!
+
+        val args = arguments
+        searchWord = args?.getString("query")
+
+
+        if(searchWord.isNullOrEmpty())
+            searchWord = "스무디"
+
+
+        Log.d(TAG, ">>> 전달받은 검색 키워드: $searchWord")
+
+        imageListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return ImageListViewModel(
+                    context!!,
+                    searchWord!!
+                ) as T
+            }
+        }).get(ImageListViewModel::class.java)
+
+        imageListViewModel.imagePagedList.observe(viewLifecycleOwner, Observer {
+            adapter = ImageSearchResultAdapter(context!!, it, imageClickListener)
+            adapter.submitList(it)
+            recyclerView.adapter = adapter
+        })
+
+
     }
 
+
+    override fun update() {
+        adapter.notifyDataSetChanged()
+    }
+
+
+    interface OnImageClicked {
+        fun onImageClicked(image: Image)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnImageClicked) {
+            imageClickListener = context
+        } else {
+            throw ClassCastException(
+                context.toString() + " must implement OnImageClicked.")
+        }
+    }
+
+    private fun initViews(searchWord: String){
+
+    }
 
 }
