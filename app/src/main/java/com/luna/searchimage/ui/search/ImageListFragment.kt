@@ -2,29 +2,28 @@ package com.luna.searchimage.ui.search
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.luna.searchimage.R
 import com.luna.searchimage.adapter.ImageSearchResultAdapter
+import com.luna.searchimage.bookmark.Bookmark
 import com.luna.searchimage.data.Image
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class ImageListFragment : Fragment() {
+class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener {
 
     private val TAG = ImageListFragment::class.java.simpleName
     private lateinit var recyclerView: RecyclerView
@@ -32,6 +31,7 @@ class ImageListFragment : Fragment() {
     private lateinit var imageListViewModel: ImageListViewModel
     private lateinit var adapter: ImageSearchResultAdapter
     private lateinit var imageClickListener: OnImageClicked
+    private lateinit var bookmarkListener: ImageSearchResultAdapter.OnBookmarkCheckListener
 
     private lateinit var mCtx: Context
 
@@ -60,6 +60,19 @@ class ImageListFragment : Fragment() {
 
     }
 
+    override fun onItemClick(image: Image, position: Int, isBookmarked: Boolean) {
+        Log.d(TAG, "클릭 $position, $isBookmarked")
+        val bookmark = Bookmark(0, image.thumbnailUrl.toString(), image.imgUrl.toString(), image.siteName.toString(), true)
+        if(isBookmarked) {
+            imageListViewModel.insertBookmark(bookmark)
+        }
+        else {
+            GlobalScope.launch(Dispatchers.IO) {
+                imageListViewModel.deleteBookmark(bookmark)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -83,7 +96,7 @@ class ImageListFragment : Fragment() {
         }).get(ImageListViewModel::class.java)
 
         imageListViewModel.imagePagedList.observe(viewLifecycleOwner, Observer {
-            adapter = ImageSearchResultAdapter(context!!, it, imageClickListener)
+            adapter = ImageSearchResultAdapter(context!!, it, imageClickListener, this)
             adapter.submitList(it)
             recyclerView.adapter = adapter
         })
@@ -94,6 +107,7 @@ class ImageListFragment : Fragment() {
     interface OnImageClicked {
         fun onImageClicked(image: Image)
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

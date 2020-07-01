@@ -1,20 +1,15 @@
 package com.luna.searchimage.ui
 
 import android.content.Intent
-import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.ViewGroupCompat
-import androidx.viewpager.widget.ViewPager
 import com.luna.searchimage.R
 import com.luna.searchimage.adapter.PagerAdapter
 import com.luna.searchimage.data.Image
-import com.luna.searchimage.ui.bookmark.BookmarkFragment
+import com.luna.searchimage.bookmark.BookmarkFragment
 import com.luna.searchimage.ui.detail.ImageDetailActivity
 import com.luna.searchimage.ui.search.ImageListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,6 +31,8 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
         fragmentAdapter.addFragment(ImageListFragment(), "이미지 검색결과")
         fragmentAdapter.addFragment(BookmarkFragment(), "즐겨찾기")
         fragmentAdapter.notifyDataSetChanged()
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,6 +59,7 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
         return true
     }
 
+
     override fun onImageClicked(image: Image) {
        // Toast.makeText(this, "${image.collection}.", Toast.LENGTH_LONG).show()
         val intent = Intent(this@MainActivity, ImageDetailActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -69,4 +67,5 @@ class MainActivity : AppCompatActivity(), ImageListFragment.OnImageClicked {
         intent.putExtra("imageUrl", image.imgUrl)
         startActivity(intent)
     }
+
 }

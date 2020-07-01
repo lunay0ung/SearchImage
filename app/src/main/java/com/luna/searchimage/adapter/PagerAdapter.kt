@@ -1,14 +1,11 @@
 package com.luna.searchimage.adapter
 
 
-import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import com.luna.searchimage.ui.bookmark.BookmarkFragment
-import com.luna.searchimage.ui.search.ImageListFragment
 
 class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     val fragments:MutableList<Fragment> = ArrayList()

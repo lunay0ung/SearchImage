@@ -1,8 +1,12 @@
 package com.luna.searchimage.data
 
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
+/*
 class Image {
     @field:SerializedName("collection")
     var collection: String? = null
@@ -22,6 +26,28 @@ class Image {
     var datetime: String? = null
     var isBookmarked = false
 }
+
+ */
+data class Image (
+    //@PrimaryKey(autoGenerate = true) var id: Int,
+    @field:SerializedName("collection")
+    var collection: String? = null,
+    @field:SerializedName("thumbnail_url")
+    var thumbnailUrl: String? = null,
+    @field:SerializedName("image_url")
+    var imgUrl: String? = null,
+    @field:SerializedName("width")
+    var width: Int? = null,
+    @field:SerializedName("height")
+    var height: Int? = null,
+    @field:SerializedName("display_sitename")
+    var siteName: String? = null,
+    @field:SerializedName("doc_url")
+    var docUrl: String? = null,
+    @field:SerializedName("datetime")
+    var datetime: String? = null,
+    var isBookmarked : Boolean = false
+)
 
 /*
 collection	String	컬렉션

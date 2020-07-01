@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_favorite"
+        android:checkable="true"
+        android:icon="@drawable/ic_favorite_selector"
+        app:actionLayout="@layout/star_layout"
+        android:title="즐겨찾기 등록"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="즐겨찾기 해제"
+        app:showAsAction="ifRoom" />
+</menu>

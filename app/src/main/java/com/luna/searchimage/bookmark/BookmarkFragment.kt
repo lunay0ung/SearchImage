@@ -1,4 +1,4 @@
-package com.luna.searchimage.ui.bookmark
+package com.luna.searchimage.bookmark
 
 import android.os.Bundle
 import android.view.LayoutInflater

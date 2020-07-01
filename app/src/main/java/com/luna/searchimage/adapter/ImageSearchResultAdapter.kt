@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -13,43 +15,114 @@ import com.bumptech.glide.Glide
 import com.luna.searchimage.R
 import com.luna.searchimage.data.Image
 import com.luna.searchimage.ui.search.ImageListFragment
+import com.luna.searchimage.ui.search.ImageListViewModel
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
 class ImageSearchResultAdapter(
     private val context: Context,
     private val imageList: PagedList<Image>,
-    private val imageClickListener: ImageListFragment.OnImageClicked
+    private val imageClickListener: ImageListFragment.OnImageClicked,
+    val mItemClickListener:ItemClickListener
 ) : PagedListAdapter<Image, ImageSearchResultAdapter.ImageViewHolder>(IMAGE_COMPARATOR) {
 
     private val TAG = ImageSearchResultAdapter::class.java.simpleName
 
+    private lateinit var  bookmarkListener: OnBookmarkCheckListener
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.image_list_item, parent, false)
 
         return ImageViewHolder(view)
     }
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
+    override fun getItemCount() = imageList.size
+
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val image = getItem(position)
         holder.itemView.setOnClickListener {
             imageClickListener.onImageClicked(image!!)
         }
         image?.let { holder.bind(it) }
+
+
+        val resourceId = if (imageList[position]!!.isBookmarked) {
+            R.drawable.ic_star
+        } else {
+            R.drawable.ic_star_border
+        }
+         holder.itemView.bookmarkBtn.tag = position
+        holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+
+        holder.itemView.bookmarkBtn.setOnClickListener{
+            if(!image!!.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
+                image.isBookmarked = true
+                mItemClickListener.onItemClick(image, position, true)
+                //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+                changeView(holder, position, resourceId)
+
+            }else {
+                image.isBookmarked = false
+                mItemClickListener.onItemClick(image, position, false)
+                changeView(holder, position, resourceId)
+
+                //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+            }
+        }
+
+
+
+        /*
+
+        val resourceId = if (imageList[position]!!.isBookmarked) {
+            R.drawable.ic_star
+        } else {
+            R.drawable.ic_star_border
+        }
+        holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+         */
+
+        //holder.itemView.bookmarkBtn.setOnCheckedChangeListener(mOnCheckedChangeListener)
+        //setUpBookmarkBtn(holder.itemView.bookmarkBtn, imageList[position]!!, position)
     }
 
+    fun changeView(holder: ImageViewHolder, position: Int, resourceId: Int) {
+        if(holder.itemView.bookmarkBtn.tag.equals(position))
+            holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+    }
 
-    class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun setUpBookmarkBtn(checkBox: CheckBox, image: Image, position: Int) {
+        checkBox.setOnCheckedChangeListener { _, b ->
+            image.isBookmarked = b
+
+            // detailViewModel.updatePlayer(player)
+            Log.d(TAG, "북마크: ${image.isBookmarked}" )
+        }
+        image.isBookmarked = true
+    }
+
+    interface ItemClickListener{
+        fun onItemClick(image: Image, position: Int, isBookmarked: Boolean)
+        //fun onLongClick(position: Int)
+    }
+
+    class ImageViewHolder(
+            view: View
+    ) : RecyclerView.ViewHolder(view) {
         private val TAG = ImageViewHolder::class.java.simpleName
         private val thumb = view.thumbnail
         private val siteName = view.siteName
+        private val bookmarkBtn = view.bookmarkBtn
+
+        var image: Image? = null
 
         fun bind(image: Image) {
-
             Log.d(TAG, ">>image url: ${image.imgUrl}")
 
+            this.image = image
             Glide.with(thumb.context)
                 .load(image.thumbnailUrl)
                 .placeholder(R.drawable.ic_defaultimage)
@@ -57,6 +130,11 @@ class ImageSearchResultAdapter(
 
             siteName.text = image.siteName
         }
+    }
+
+
+    interface OnBookmarkCheckListener {
+        fun onBookmarked(image: Image)
     }
 
     companion object {

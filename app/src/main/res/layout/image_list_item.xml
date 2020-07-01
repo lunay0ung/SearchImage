@@ -10,30 +10,43 @@
     card_view:cardCornerRadius="1dp"
     tools:ignore="UnusedAttribute"
     >
-
     <LinearLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <ToggleButton
-            android:id="@+id/toggleBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/siteName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:padding="4dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            tools:text="출처" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/siteName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="출처" />
+
+            <androidx.appcompat.widget.AppCompatToggleButton
+                android:id="@+id/bookmarkBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:button="@drawable/ic_favorite_selector"
+                android:textOff=""
+                android:textOn=""
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/thumbnail"
