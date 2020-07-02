@@ -22,7 +22,6 @@ class BookmarkListViewModel(application: Application) : AndroidViewModel(applica
         return repository.getAllBookmark()
     }
 
-
     fun deleteBookmark(bookmark: Bookmark) = viewModelScope.launch {
         repository.deleteBookmark(bookmark)
     }

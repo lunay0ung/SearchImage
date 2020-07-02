@@ -52,7 +52,6 @@ class ImageSearchResultAdapter(
 
         holder.itemView.bookmarkBtn.setOnClickListener{
             if(!image.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
-                Log.d(TAG, ">>> 클릭111:  ${image.isBookmarked}")
                 image.isBookmarked = true
                 mItemClickListener.onBookmarkClicked(image, position, true)
                 changeViewState(holder, position, R.drawable.ic_star, true)

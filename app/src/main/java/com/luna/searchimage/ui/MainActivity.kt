@@ -12,7 +12,7 @@ import com.luna.searchimage.bookmark.BookmarkFragment
 import com.luna.searchimage.ui.search.ImageListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BookmarkFragment.OnDataPass {
 
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var searchWord : String
@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var sharedPref: SharedPreferences
 
     companion object {
-        val PRIVATE_MODE = 0
-        val PREF_NAME = "com.dev.luna"
         const val LAST_QUERY_KEY = "lastQuery"
         var LAST_QUERY_VALUE = ""
     }
@@ -38,13 +36,16 @@ class MainActivity : AppCompatActivity() {
         fragmentAdapter.addFragment(BookmarkFragment(), "즐겨찾기")
         fragmentAdapter.notifyDataSetChanged()
 
-        sharedPref = this.getSharedPreferences(this.packageName, PRIVATE_MODE)
-        //if(!sharedPref.getString(ImageListFragment.LAST_QUERY, "smoothie").isNullOrBlank())
+        sharedPref = this.getSharedPreferences(this.packageName, 0)
         LAST_QUERY_VALUE = sharedPref.getString(LAST_QUERY_KEY, "smoothie").toString()
-        Log.d(TAG, ">>> 1111 저장한 검색 키워드: ${LAST_QUERY_VALUE}")
-
-
     }
+
+    override fun onDataPass(data: String) {
+        Log.d(TAG, ">>> 전달받은 데이터: $data")
+        fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(data))
+        fragmentAdapter.notifyDataSetChanged()
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
@@ -54,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
-                    Log.d(TAG, ">>> 입력한 검색 키워드: $query")
                     searchWord = query
                     fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(query))
                     fragmentAdapter.notifyDataSetChanged()
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                     editor.putString(LAST_QUERY_KEY, searchWord)
                     editor.apply()
                 }
-
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {

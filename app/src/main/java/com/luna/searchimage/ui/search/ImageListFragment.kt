@@ -15,8 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luna.searchimage.R
+import com.luna.searchimage.adapter.BookmarkAdapter
 import com.luna.searchimage.adapter.ImageSearchResultAdapter
 import com.luna.searchimage.bookmark.Bookmark
+import com.luna.searchimage.bookmark.BookmarkFragment
 import com.luna.searchimage.data.Image
 import com.luna.searchimage.ui.MainActivity.Companion.LAST_QUERY_VALUE
 import com.luna.searchimage.ui.detail.ImageDetailActivity
@@ -33,10 +35,6 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
     private lateinit var mCtx: Context
     //private lateinit var finalKeyword: String
     companion object {
-        fun newInstance(): ImageListFragment {
-            return ImageListFragment()
-        }
-
         fun newInstance(query: String): ImageListFragment {
             val fragment = ImageListFragment()
             val args = Bundle()
@@ -45,7 +43,9 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
             return fragment
         }
         var finalKeyword: String = ""
+
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)

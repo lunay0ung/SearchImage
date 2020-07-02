@@ -17,10 +17,6 @@ open class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
         bookmarkDao.insert(bookmark)
     }
 
-    suspend fun updateBookmark(bookmark: Bookmark) {
-        bookmarkDao.update(bookmark)
-    }
-
     suspend fun deleteBookmark(bookmark: Bookmark) {
         bookmarkDao.deleteBookmark(bookmark.imageUrl)
     }

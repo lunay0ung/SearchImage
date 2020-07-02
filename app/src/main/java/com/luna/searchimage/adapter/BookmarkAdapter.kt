@@ -1,4 +1,4 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
-import com.luna.searchimage.adapter.ImageSearchResultAdapter
+import com.luna.searchimage.bookmark.Bookmark
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
@@ -36,7 +36,9 @@ class BookmarkAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.image_list_item, parent, false)
-        return BookmarkViewHolder(view)
+        return BookmarkViewHolder(
+            view
+        )
     }
 
     override fun getItemCount() = bookmarkList.size
@@ -47,7 +49,7 @@ class BookmarkAdapter(
         //sharedBookmarkList[position].imageUrl
 
         holder.itemView.setOnClickListener {
-            mItemClickListener.onImageClicked(bookmark!!)
+            mItemClickListener.onBookmarkImageClicked(bookmark!!)
         }
 
         bookmark?.let { holder.bind(it) }
@@ -64,24 +66,29 @@ class BookmarkAdapter(
         holder.itemView.bookmarkBtn.setOnClickListener {
             if (!bookmark!!.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
                 bookmark.isBookmarked = true
-                mItemClickListener.onBookmarkClicked(bookmark, position, true)
-                changeView(holder, position, resourceId)
+                mItemClickListener.onBookmarkDeleted(bookmark, position, true)
+                changeViewState(holder, position, resourceId, true)
             } else {
                 bookmark.isBookmarked = false
-                mItemClickListener.onBookmarkClicked(bookmark, position, false)
-                changeView(holder, position, resourceId)
+                mItemClickListener.onBookmarkDeleted(bookmark, position, false)
+                changeViewState(holder, position, resourceId, false)
             }
         }
     }
 
     interface ItemClickListener{
-        fun onBookmarkClicked(bookmark: Bookmark, position: Int, isBookmarked: Boolean)
-        fun onImageClicked(bookmark: Bookmark)
+        fun onBookmarkDeleted(bookmark: Bookmark, position: Int, isBookmarked: Boolean)
+        fun onBookmarkImageClicked(bookmark: Bookmark)
     }
 
-    fun changeView(holder: BookmarkViewHolder, position: Int, resourceId: Int) {
-        if(holder.itemView.bookmarkBtn.tag.equals(position))
+
+    fun changeViewState(holder: BookmarkViewHolder, position: Int, resourceId: Int, pressedState: Boolean) {
+        if(holder.itemView.bookmarkBtn.tag.equals(position)) {
+            holder.itemView.bookmarkBtn.isChecked = pressedState
+            holder.itemView.bookmarkBtn.isPressed = pressedState
+
             holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+        }
     }
 
 
