@@ -23,21 +23,8 @@ abstract class BookmarkDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     val bookmarkDao = database.bookmarkDao()
-                    prePopulateDatabase(bookmarkDao)
                 }
             }
-        }
-
-        private suspend fun prePopulateDatabase(bookmarkDao: BookmarkDao) {
-           /*
-            val jsonString = resources.openRawResource(R.raw.players).bufferedReader().use {
-                it.readText()
-            }
-            val typeToken = object : TypeToken<List<Player>>() {}.type
-            val tennisPlayers = Gson().fromJson<List<Player>>(jsonString, typeToken)
-            bookmarkDao.insertAllPlayers(tennisPlayers)
-            */
-
         }
     }
 

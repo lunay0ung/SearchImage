@@ -30,7 +30,7 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
     private lateinit var imageListViewModel: ImageListViewModel
     private lateinit var adapter: ImageSearchResultAdapter
     private lateinit var mCtx: Context
-    //private lateinit var finalKeyword: String
+
     companion object {
         fun newInstance(query: String): ImageListFragment {
             val fragment = ImageListFragment()
@@ -57,7 +57,7 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
     }
 
     override fun onBookmarkClicked(image: Image, position: Int, isBookmarked: Boolean) {
-        Log.d(TAG, "클릭 $position, $isBookmarked")
+        //Log.d(TAG, "클릭 $position, $isBookmarked")
         val bookmark = Bookmark(0,
             finalKeyword, image.collection!! ,image.thumbnailUrl!!, image.imageUrl!!, image.width!!, image.height!!, image.siteName!!, image.docUrl!!, image.datetime!!, true)
         if(isBookmarked) {

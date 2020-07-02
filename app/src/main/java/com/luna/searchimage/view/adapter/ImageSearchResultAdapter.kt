@@ -45,7 +45,6 @@ class ImageSearchResultAdapter(
         image?.let { holder.bind(it) }
 
        image?.isBookmarked = checkIfBookmarked(image!!)
-        Log.d(TAG, ">>> 북마크 된건지? -> ${image.isBookmarked}")
         val resourceId =  if (image.isBookmarked) {
             R.drawable.ic_star
         } else {
@@ -82,7 +81,6 @@ class ImageSearchResultAdapter(
         if(holder.itemView.bookmarkBtn.tag.equals(position)) {
             holder.itemView.bookmarkBtn.isChecked = pressedState
             holder.itemView.bookmarkBtn.isPressed = pressedState
-
             holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
         }
     }

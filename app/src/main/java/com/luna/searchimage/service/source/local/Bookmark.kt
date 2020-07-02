@@ -11,7 +11,7 @@ import com.luna.searchimage.service.source.local.Bookmark.Companion.THUMB_URL
 import kotlinx.android.parcel.Parcelize
 
 
-//이미지 객체 전체
+
 @Parcelize
 @Entity(tableName = TABLE_NAME,
     indices = [Index(value = [IMAGE_URL, THUMB_URL], unique = true)])

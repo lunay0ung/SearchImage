@@ -17,14 +17,7 @@ class BookmarkAdapter(
     private val mItemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
-    private var listener: ((Bookmark) -> Unit)? = null
-    lateinit var sharedBookmarkList: List<Bookmark>
 
-    companion object {
-       // fun getBookmarkListData() : List<Bookmark> {
-      //      return sharedBookmarkList
-       // }
-    }
 
     fun swapData(bookmarkList: List<Bookmark>) {
        //this.sharedBookmarkList = bookmarkList

@@ -24,7 +24,6 @@ class ImageListViewModel(
     private val TAG = ImageListViewModel::class.java.simpleName
     private val repository: BookmarkRepository
     var imagePagedList: LiveData<PagedList<Image>>
-    //var bookmarkList: LiveData<List<Bookmark>>
     private var liveDataSource: LiveData<ImageDataSource>
     init {
 
@@ -46,8 +45,6 @@ class ImageListViewModel(
             .bookmarkDao()
         repository =
             BookmarkRepository(bookmarkDao)
-
-        //bookmarkList = getAllBookmark()
     }
 
     fun getAllBookmark(): LiveData<List<Bookmark>> {

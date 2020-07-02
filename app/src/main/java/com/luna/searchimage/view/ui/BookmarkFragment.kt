@@ -34,7 +34,6 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
 
     override fun onBookmarkDeleted(bookmark: Bookmark, position: Int, isBookmarked: Boolean) {
         if(!isBookmarked) { //해제함
-            Log.d(TAG, "북마크 해제 데이터보네: ${bookmark.thumbnailUrl}")
             bookmarkListViewModel.deleteBookmark(bookmark)
             dataPasser.onDataPass(bookmark.keyword)
 

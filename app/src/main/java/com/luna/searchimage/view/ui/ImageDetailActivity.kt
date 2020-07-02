@@ -17,7 +17,6 @@ class ImageDetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_detail_activity)
 
-
         val siteName=intent.getStringExtra("siteName")
         val imageUrl=intent.getStringExtra("imageUrl")
 
@@ -40,9 +39,5 @@ class ImageDetailActivity : AppCompatActivity(){
             }
         }
         return true
-    }
-
-    companion object {
-        val IMAGE_SITENAME = "imageSiteName"
     }
 }

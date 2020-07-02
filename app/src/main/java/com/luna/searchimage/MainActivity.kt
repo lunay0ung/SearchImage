@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), BookmarkFragment.OnDataPass {
     override fun onDataPass(data: String) {
         Log.d(TAG, ">>> 전달받은 데이터: $data")
         //fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(data))
-        fragmentAdapter.notifyDataSetChanged()
+        fragmentAdapter.notifyDataSetChanged() //todo 북마크 해제 시 검색결과 refresh 되는 것 보완 필요
     }
 
 
