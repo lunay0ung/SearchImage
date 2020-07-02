@@ -1,5 +1,6 @@
 package com.luna.searchimage.adapter
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +46,7 @@ class ImageSearchResultAdapter(
         image?.let { holder.bind(it) }
 
        image?.isBookmarked = checkIfBookmarked(image!!)
-        Log.d(TAG, ">>> 북마크 된건지? ${image.isBookmarked}")
+        Log.d(TAG, ">>> 북마크 된건지? -> ${image.isBookmarked}")
         val resourceId =  if (image.isBookmarked) {
             R.drawable.ic_star
         } else {
@@ -56,17 +57,21 @@ class ImageSearchResultAdapter(
 
         holder.itemView.bookmarkBtn.setOnClickListener{
             if(!image.isBookmarked) { //북마크 안되어있는데 눌렀으면 등록
+                Log.d(TAG, ">>> 클릭111:  ${image.isBookmarked}")
                 image.isBookmarked = true
                 mItemClickListener.onBookmarkClicked(image, position, true)
                 //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
-                changeView(holder, position, resourceId)
+                changeView(holder, position, R.drawable.ic_star)
 
-            }else {
+            }else { //북마크 되어있는데 눌렀으면 해제
+                Log.d(TAG, ">>> 클릭222:  ${image.isBookmarked}")
                 image.isBookmarked = false
+                Log.d(TAG, ">>> 클릭333 해제해야됨:  ${image.isBookmarked}")
                 mItemClickListener.onBookmarkClicked(image, position, false)
-                changeView(holder, position, resourceId)
-
-                //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+                Log.d(TAG, ">>> 클릭444 리소스 변경해야됨:  ${image.isBookmarked}")
+                Log.d(TAG, ">>> 포지션 111: $position")
+                Log.d(TAG, ">>> 포지션tag 222: ${holder.itemView.bookmarkBtn.tag}")
+                changeView(holder, position, R.drawable.ic_star_border)
             }
 
         }
@@ -76,19 +81,28 @@ class ImageSearchResultAdapter(
     //만약 이미지[position]이 북마크리스트에 있으면 북마킹 된것임! 단순함.
     fun checkIfBookmarked(image: Image): Boolean {
         var result:Boolean = false
+        var i : Int = 0;
         Log.d(TAG, ">>> 이미지 url: ${image.thumbnailUrl}")
         for(bookmark in bookmarkList) {
+            if(image.thumbnailUrl.equals(bookmark.thumbnailUrl)){
+                i++
+            }
             Log.d(TAG, ">>> 북마크 url: ${bookmark.thumbnailUrl}")
             result = image.thumbnailUrl.equals(bookmark.thumbnailUrl)
+            Log.d(TAG, ">>> 북마크 url: ${result}")
         }
+        if(i > 0)
+            result = true
         return result
     }
 
 
 
     fun changeView(holder: ImageViewHolder, position: Int, resourceId: Int) {
-        if(holder.itemView.bookmarkBtn.tag.equals(position))
+        if(holder.itemView.bookmarkBtn.tag.equals(position)) {
+          //  holder.itemView.bookmarkBtn.setBackgroundResource(R.drawable.ic_favorite_selector)
             holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
+        }
     }
 
 
