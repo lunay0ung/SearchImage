@@ -49,7 +49,7 @@ abstract class BookmarkDatabase : RoomDatabase() {
                             coroutineScope
                         )
                     )
-                    .allowMainThreadQueries()
+                    .allowMainThreadQueries() //todo 개선 필요
                     .build()
                 INSTANCE = instance
                 return instance
