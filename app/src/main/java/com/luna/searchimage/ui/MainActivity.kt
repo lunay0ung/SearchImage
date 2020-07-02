@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
                     Log.d(TAG, ">>> 입력한 검색 키워드: $query")
-                    //BookListFragment.SHOW_SEARCH_RESULT_MESSAGE = true
                     searchWord = query
                     fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(query))
                     fragmentAdapter.notifyDataSetChanged()

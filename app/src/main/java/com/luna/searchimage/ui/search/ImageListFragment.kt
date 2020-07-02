@@ -31,7 +31,7 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
     private lateinit var imageListViewModel: ImageListViewModel
     private lateinit var adapter: ImageSearchResultAdapter
     private lateinit var mCtx: Context
-    private lateinit var finalKeyword: String
+    //private lateinit var finalKeyword: String
     companion object {
         fun newInstance(): ImageListFragment {
             return ImageListFragment()
@@ -44,14 +44,13 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
             fragment.setArguments(args)
             return fragment
         }
-        var SHOW_SEARCH_RESULT_MESSAGE =  false
+        var finalKeyword: String = ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.image_list_fragment, container, false)
     }
-
 
     override fun onImageClicked(image: Image) {
         val intent = Intent(context, ImageDetailActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -62,7 +61,7 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
 
     override fun onBookmarkClicked(image: Image, position: Int, isBookmarked: Boolean) {
         Log.d(TAG, "클릭 $position, $isBookmarked")
-        val bookmark = Bookmark(0, finalKeyword, image.thumbnailUrl!!, image.imageUrl!!, image.siteName!!, image.width!!, image.height!!, image.siteName!!, image.docUrl!!, image.datetime!!, true)
+        val bookmark = Bookmark(0, finalKeyword, image.collection!! ,image.thumbnailUrl!!, image.imageUrl!!, image.width!!, image.height!!, image.siteName!!, image.docUrl!!, image.datetime!!, true)
         if(isBookmarked) {
             imageListViewModel.insertBookmark(bookmark)
         }
@@ -81,12 +80,12 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
         recyclerView.layoutManager = GridLayoutManager(context, 2)//LinearLayoutManager(context)
         mCtx = context!!
         val args = arguments
-        var searchWord = args?.getString("query")
 
-        if(searchWord == null) {
-            searchWord = LAST_QUERY_VALUE
+        finalKeyword = if(args?.getString("query") != null) {
+            args?.getString("query").toString()
+        } else {
+            LAST_QUERY_VALUE
         }
-        finalKeyword = searchWord
 
         imageListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
