@@ -1,4 +1,4 @@
-package com.luna.searchimage.data
+package com.luna.searchimage.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package com.luna.searchimage.adapter
+package com.luna.searchimage.view.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,16 +10,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
-import com.luna.searchimage.bookmark.Bookmark
-import com.luna.searchimage.data.Image
+import com.luna.searchimage.service.source.local.Bookmark
+import com.luna.searchimage.model.Image
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
 class ImageSearchResultAdapter(
     private val bookmarkList: List<Bookmark>,
     private val imageList: PagedList<Image>,
-    private val mItemClickListener:ItemClickListener
-) : PagedListAdapter<Image, ImageSearchResultAdapter.ImageViewHolder>(IMAGE_COMPARATOR) {
+    private val mItemClickListener: ItemClickListener
+) : PagedListAdapter<Image, ImageSearchResultAdapter.ImageViewHolder>(
+    IMAGE_COMPARATOR
+) {
 
     private val TAG = ImageSearchResultAdapter::class.java.simpleName
 
@@ -27,7 +29,9 @@ class ImageSearchResultAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.image_list_item, parent, false)
 
-        return ImageViewHolder(view)
+        return ImageViewHolder(
+            view
+        )
     }
 
     override fun getItemCount() = imageList.size

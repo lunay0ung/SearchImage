@@ -1,13 +1,13 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.service.source.local
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.luna.searchimage.bookmark.Bookmark.Companion.IMAGE_URL
-import com.luna.searchimage.bookmark.Bookmark.Companion.TABLE_NAME
-import com.luna.searchimage.bookmark.Bookmark.Companion.THUMB_URL
+import com.luna.searchimage.service.source.local.Bookmark.Companion.IMAGE_URL
+import com.luna.searchimage.service.source.local.Bookmark.Companion.TABLE_NAME
+import com.luna.searchimage.service.source.local.Bookmark.Companion.THUMB_URL
 import kotlinx.android.parcel.Parcelize
 
 

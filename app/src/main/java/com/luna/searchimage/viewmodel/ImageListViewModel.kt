@@ -1,4 +1,4 @@
-package com.luna.searchimage.ui.search
+package com.luna.searchimage.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.luna.searchimage.bookmark.Bookmark
-import com.luna.searchimage.bookmark.BookmarkDatabase
-import com.luna.searchimage.bookmark.BookmarkRepository
-import com.luna.searchimage.data.Image
-import com.luna.searchimage.data.ImageDataSource
-import com.luna.searchimage.data.ImageDataSourceFactory
+import com.luna.searchimage.service.source.local.Bookmark
+import com.luna.searchimage.service.source.local.BookmarkDatabase
+import com.luna.searchimage.service.source.BookmarkRepository
+import com.luna.searchimage.model.Image
+import com.luna.searchimage.service.source.remote.ImageDataSource
+import com.luna.searchimage.service.source.remote.ImageDataSourceFactory
 import kotlinx.coroutines.launch
 
 
@@ -28,7 +28,11 @@ class ImageListViewModel(
     private var liveDataSource: LiveData<ImageDataSource>
     init {
 
-        val itemDataSourceFactory = ImageDataSourceFactory(context, keyword)
+        val itemDataSourceFactory =
+            ImageDataSourceFactory(
+                context,
+                keyword
+            )
         liveDataSource = itemDataSourceFactory.imageLiveDataSource
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -40,7 +44,8 @@ class ImageListViewModel(
         val bookmarkDao = BookmarkDatabase
             .getDatabase(context, viewModelScope, context.resources)
             .bookmarkDao()
-        repository = BookmarkRepository(bookmarkDao)
+        repository =
+            BookmarkRepository(bookmarkDao)
 
         //bookmarkList = getAllBookmark()
     }

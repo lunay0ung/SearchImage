@@ -1,10 +1,7 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.service.source.local
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.room.*
-import com.luna.searchimage.bookmark.Bookmark
-import com.luna.searchimage.data.Image
 
 
 @Dao

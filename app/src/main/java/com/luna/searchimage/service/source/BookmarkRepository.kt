@@ -1,6 +1,8 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.service.source
 
 import androidx.lifecycle.LiveData
+import com.luna.searchimage.service.source.local.Bookmark
+import com.luna.searchimage.service.source.local.BookmarkDao
 
 
 open class BookmarkRepository(private val bookmarkDao: BookmarkDao) {

@@ -2,7 +2,7 @@ package com.luna.searchimage
 
 import android.app.Application
 import androidx.room.Room
-import com.luna.searchimage.bookmark.BookmarkDatabase
+import com.luna.searchimage.service.source.local.BookmarkDatabase
 
 class App : Application(){
 

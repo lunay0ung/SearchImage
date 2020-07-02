@@ -1,4 +1,4 @@
-package com.luna.searchimage.adapter
+package com.luna.searchimage.view.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
-import com.luna.searchimage.bookmark.Bookmark
+import com.luna.searchimage.service.source.local.Bookmark
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 

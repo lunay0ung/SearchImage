@@ -1,8 +1,8 @@
 package com.luna.searchbooks.api
 
 import com.google.gson.annotations.SerializedName
-import com.luna.searchimage.data.Image
-import com.luna.searchimage.data.Meta
+import com.luna.searchimage.model.Image
+import com.luna.searchimage.model.Meta
 
 class ImageSearchResponse {
     @field: SerializedName("meta")

@@ -1,13 +1,12 @@
-package com.luna.searchimage.ui.detail
+package com.luna.searchimage.view.ui
 
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
+import com.luna.searchimage.viewmodel.ImageDetailViewModel
 
 class ImageDetailActivity : AppCompatActivity(){
 

@@ -1,8 +1,7 @@
-package com.luna.searchimage.ui.search
+package com.luna.searchimage.view.ui
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,13 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luna.searchimage.R
-import com.luna.searchimage.adapter.BookmarkAdapter
-import com.luna.searchimage.adapter.ImageSearchResultAdapter
-import com.luna.searchimage.bookmark.Bookmark
-import com.luna.searchimage.bookmark.BookmarkFragment
-import com.luna.searchimage.data.Image
-import com.luna.searchimage.ui.MainActivity.Companion.LAST_QUERY_VALUE
-import com.luna.searchimage.ui.detail.ImageDetailActivity
+import com.luna.searchimage.view.adapter.ImageSearchResultAdapter
+import com.luna.searchimage.service.source.local.Bookmark
+import com.luna.searchimage.model.Image
+import com.luna.searchimage.MainActivity.Companion.LAST_QUERY_VALUE
+import com.luna.searchimage.viewmodel.ImageListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -61,7 +58,8 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
 
     override fun onBookmarkClicked(image: Image, position: Int, isBookmarked: Boolean) {
         Log.d(TAG, "클릭 $position, $isBookmarked")
-        val bookmark = Bookmark(0, finalKeyword, image.collection!! ,image.thumbnailUrl!!, image.imageUrl!!, image.width!!, image.height!!, image.siteName!!, image.docUrl!!, image.datetime!!, true)
+        val bookmark = Bookmark(0,
+            finalKeyword, image.collection!! ,image.thumbnailUrl!!, image.imageUrl!!, image.width!!, image.height!!, image.siteName!!, image.docUrl!!, image.datetime!!, true)
         if(isBookmarked) {
             imageListViewModel.insertBookmark(bookmark)
         }
@@ -89,7 +87,7 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
 
         imageListViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return ImageListViewModel (
+                return ImageListViewModel(
                     context!!,
                     finalKeyword
                 ) as T
@@ -98,7 +96,11 @@ class ImageListFragment : Fragment(), ImageSearchResultAdapter.ItemClickListener
 
         val bookmarkList = imageListViewModel.getBookmarkByKeyword(finalKeyword)
         imageListViewModel.imagePagedList.observe(viewLifecycleOwner, Observer {
-            adapter = ImageSearchResultAdapter(bookmarkList, it, this)
+            adapter = ImageSearchResultAdapter(
+                bookmarkList,
+                it,
+                this
+            )
             adapter.submitList(it)
             recyclerView.adapter = adapter
         })

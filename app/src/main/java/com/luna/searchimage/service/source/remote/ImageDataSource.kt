@@ -1,4 +1,4 @@
-package com.luna.searchimage.data
+package com.luna.searchimage.service.source.remote
 
 import android.content.Context
 import android.util.Log
@@ -7,6 +7,7 @@ import androidx.paging.PageKeyedDataSource
 import com.luna.searchbooks.api.ApiService
 import com.luna.searchbooks.api.ApiServiceBuilder
 import com.luna.searchbooks.api.ImageSearchResponse
+import com.luna.searchimage.model.Image
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,12 +61,6 @@ class ImageDataSource(
 
                     if(meta!!.totalCount == 0) {
                         Toast.makeText(mCtx, "검색 결과가 없습니다.", Toast.LENGTH_LONG).show()
-                    }
-                    else {
-                        //if(ImageL.SHOW_SEARCH_RESULT_MESSAGE)
-                            Toast.makeText(mCtx, "총 ${meta.totalCount}건의 이미지가 조회되었습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
                     }
 
                     responseItems?.let {

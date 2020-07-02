@@ -1,6 +1,5 @@
-package com.luna.searchimage.ui.detail
+package com.luna.searchimage.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 

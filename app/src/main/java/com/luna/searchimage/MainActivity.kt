@@ -1,4 +1,4 @@
-package com.luna.searchimage.ui
+package com.luna.searchimage
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -6,10 +6,9 @@ import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.luna.searchimage.R
-import com.luna.searchimage.adapter.PagerAdapter
-import com.luna.searchimage.bookmark.BookmarkFragment
-import com.luna.searchimage.ui.search.ImageListFragment
+import com.luna.searchimage.view.adapter.PagerAdapter
+import com.luna.searchimage.view.ui.BookmarkFragment
+import com.luna.searchimage.view.ui.ImageListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BookmarkFragment.OnDataPass {
@@ -28,7 +27,8 @@ class MainActivity : AppCompatActivity(), BookmarkFragment.OnDataPass {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragmentAdapter = PagerAdapter(supportFragmentManager)
+        fragmentAdapter =
+            PagerAdapter(supportFragmentManager)
         pager.adapter = fragmentAdapter
         tab_layout.setupWithViewPager(pager)
 
@@ -37,12 +37,13 @@ class MainActivity : AppCompatActivity(), BookmarkFragment.OnDataPass {
         fragmentAdapter.notifyDataSetChanged()
 
         sharedPref = this.getSharedPreferences(this.packageName, 0)
-        LAST_QUERY_VALUE = sharedPref.getString(LAST_QUERY_KEY, "smoothie").toString()
+        LAST_QUERY_VALUE = sharedPref.getString(
+            LAST_QUERY_KEY, "smoothie").toString()
     }
 
     override fun onDataPass(data: String) {
         Log.d(TAG, ">>> 전달받은 데이터: $data")
-        fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(data))
+        //fragmentAdapter.replaceFragment(0, ImageListFragment.newInstance(data))
         fragmentAdapter.notifyDataSetChanged()
     }
 

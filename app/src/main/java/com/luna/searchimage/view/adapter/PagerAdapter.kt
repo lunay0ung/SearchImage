@@ -1,4 +1,4 @@
-package com.luna.searchimage.adapter
+package com.luna.searchimage.view.adapter
 
 
 import android.view.ViewGroup

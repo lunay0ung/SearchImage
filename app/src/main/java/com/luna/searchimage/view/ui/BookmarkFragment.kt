@@ -1,4 +1,4 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.view.ui
 
 import android.content.Context
 import android.content.Intent
@@ -12,8 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.luna.searchimage.R
-import com.luna.searchimage.adapter.BookmarkAdapter
-import com.luna.searchimage.ui.detail.ImageDetailActivity
+import com.luna.searchimage.view.adapter.BookmarkAdapter
+import com.luna.searchimage.service.source.local.Bookmark
+import com.luna.searchimage.viewmodel.BookmarkListViewModel
 import kotlinx.android.synthetic.main.book_mark_fragment.*
 
 class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
@@ -62,7 +63,10 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        adapter = BookmarkAdapter(mutableListOf(), this)
+        adapter = BookmarkAdapter(
+            mutableListOf(),
+            this
+        )
 
         recyclerView.adapter = adapter
         bookmarkListViewModel = ViewModelProvider(this).get(BookmarkListViewModel::class.java)

@@ -1,8 +1,10 @@
-package com.luna.searchimage.data
+package com.luna.searchimage.service.source.remote
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.luna.searchimage.model.Image
+import com.luna.searchimage.service.source.remote.ImageDataSource
 
 class ImageDataSourceFactory(
     context: Context,
@@ -12,7 +14,11 @@ class ImageDataSourceFactory(
     val imageLiveDataSource = MutableLiveData<ImageDataSource>()
     val mCtx = context
     override fun create(): DataSource<Int, Image> {
-        val imageDataSource = ImageDataSource(mCtx, keyword)
+        val imageDataSource =
+            ImageDataSource(
+                mCtx,
+                keyword
+            )
         imageLiveDataSource.postValue(imageDataSource)
         return imageDataSource
     }

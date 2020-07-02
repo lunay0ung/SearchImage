@@ -1,4 +1,4 @@
-package com.luna.searchimage.bookmark
+package com.luna.searchimage.service.source.local
 
 import android.content.Context
 import android.content.res.Resources

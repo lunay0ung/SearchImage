@@ -1,8 +1,5 @@
-package com.luna.searchimage.data
+package com.luna.searchimage.model
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
