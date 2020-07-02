@@ -8,21 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
 import com.luna.searchimage.adapter.ImageSearchResultAdapter
-import com.luna.searchimage.data.Image
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
 
 class BookmarkAdapter(
-    private val bookmarList: MutableList<Bookmark>,
-    val mItemClickListener: ItemClickListener
+    private val bookmarkList: MutableList<Bookmark>,
+    private val mItemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
     private var listener: ((Bookmark) -> Unit)? = null
+    lateinit var sharedBookmarkList: List<Bookmark>
 
-    fun swapData(bookmarList: List<Bookmark>) {
-        this.bookmarList.clear()
-        this.bookmarList.addAll(bookmarList)
+    companion object {
+       // fun getBookmarkListData() : List<Bookmark> {
+      //      return sharedBookmarkList
+       // }
+    }
+
+    fun swapData(bookmarkList: List<Bookmark>) {
+       //this.sharedBookmarkList = bookmarkList
+        this.bookmarkList.clear()
+        this.bookmarkList.addAll(bookmarkList)
         notifyDataSetChanged()
     }
 
@@ -32,10 +39,12 @@ class BookmarkAdapter(
         return BookmarkViewHolder(view)
     }
 
-    override fun getItemCount() = bookmarList.size
+    override fun getItemCount() = bookmarkList.size
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        val bookmark = bookmarList[position]
+        val bookmark = bookmarkList[position]
+
+        //sharedBookmarkList[position].imageUrl
 
         holder.itemView.setOnClickListener {
             mItemClickListener.onImageClicked(bookmark!!)
@@ -44,7 +53,7 @@ class BookmarkAdapter(
         bookmark?.let { holder.bind(it) }
 
 
-        val resourceId = if (bookmarList[position]!!.isBookmarked) {
+        val resourceId = if (bookmarkList[position]!!.isBookmarked) {
             R.drawable.ic_star
         } else {
             R.drawable.ic_star_border
@@ -57,7 +66,6 @@ class BookmarkAdapter(
                 bookmark.isBookmarked = true
                 mItemClickListener.onBookmarkClicked(bookmark, position, true)
                 changeView(holder, position, resourceId)
-
             } else {
                 bookmark.isBookmarked = false
                 mItemClickListener.onBookmarkClicked(bookmark, position, false)
@@ -78,7 +86,7 @@ class BookmarkAdapter(
 
 
     class BookmarkViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val TAG = ImageSearchResultAdapter.ImageViewHolder::class.java.simpleName
+        private val TAG = BookmarkViewHolder::class.java.simpleName
         private val thumb = view.thumbnail
         private val siteName = view.siteName
         private val bookmarkBtn = view.bookmarkBtn

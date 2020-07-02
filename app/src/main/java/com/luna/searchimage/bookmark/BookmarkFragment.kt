@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.luna.searchimage.R
 import com.luna.searchimage.ui.detail.ImageDetailActivity
+import com.luna.searchimage.ui.search.ImageListFragment
 import com.luna.searchimage.ui.search.ImageListViewModel
 import kotlinx.android.synthetic.main.book_mark_fragment.*
 
@@ -21,7 +22,11 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
     private val TAG = BookmarkFragment::class.java.simpleName
     private lateinit var bookmarkListViewModel: BookmarkListViewModel
     private lateinit var adapter: BookmarkAdapter
-    lateinit var clickListener: View.OnClickListener
+
+
+    companion object {
+        lateinit var  SHARED_BOOKMARK: List<Bookmark>
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +36,6 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
         setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.book_mark_fragment, container, false)
-
     }
 
     override fun onBookmarkClicked(bookmark: Bookmark, position: Int, isBookmarked: Boolean) {
@@ -55,8 +59,9 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.ItemClickListener {
 
         recyclerView.adapter = adapter
         bookmarkListViewModel = ViewModelProvider(this).get(BookmarkListViewModel::class.java)
-        bookmarkListViewModel.getAllBookmark().observe(viewLifecycleOwner, Observer<List<Bookmark>> { bookmarkList ->
+        bookmarkListViewModel.getAllBookmark().observe(viewLifecycleOwner, Observer<List<Bookmark>>   { bookmarkList ->
             adapter.swapData(bookmarkList)
+            SHARED_BOOKMARK = bookmarkList
         })
     }
 

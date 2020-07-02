@@ -1,13 +1,11 @@
 package com.luna.searchimage.ui.search
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.luna.searchimage.adapter.ImageSearchResultAdapter
 import com.luna.searchimage.bookmark.Bookmark
 import com.luna.searchimage.bookmark.BookmarkDatabase
 import com.luna.searchimage.bookmark.BookmarkRepository
@@ -26,6 +24,7 @@ class ImageListViewModel(
     private val TAG = ImageListViewModel::class.java.simpleName
     private val repository: BookmarkRepository
     var imagePagedList: LiveData<PagedList<Image>>
+    //var bookmarkList: LiveData<List<Bookmark>>
     private var liveDataSource: LiveData<ImageDataSource>
     init {
 
@@ -42,14 +41,20 @@ class ImageListViewModel(
             .getDatabase(context, viewModelScope, context.resources)
             .bookmarkDao()
         repository = BookmarkRepository(bookmarkDao)
+
+        //bookmarkList = getAllBookmark()
+    }
+
+    fun getAllBookmark(): LiveData<List<Bookmark>> {
+        return repository.getAllBookmark()
+    }
+
+    fun getBookmarkByKeyword(keyword: String): List<Bookmark> {
+        return repository.getBookmarkByKeyword(keyword)
     }
 
     fun insertBookmark(bookmark: Bookmark) = viewModelScope.launch {
         repository.insertBookmark(bookmark)
-    }
-
-    fun updateBookmark(bookmark: Bookmark) = viewModelScope.launch {
-        repository.updateBookmark(bookmark)
     }
 
     fun deleteBookmark(bookmark: Bookmark) = viewModelScope.launch {

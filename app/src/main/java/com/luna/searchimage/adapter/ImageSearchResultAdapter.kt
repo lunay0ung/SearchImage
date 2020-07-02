@@ -1,25 +1,27 @@
 package com.luna.searchimage.adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.luna.searchimage.R
+import com.luna.searchimage.bookmark.Bookmark
+import com.luna.searchimage.bookmark.BookmarkAdapter
+import com.luna.searchimage.bookmark.BookmarkFragment
 import com.luna.searchimage.data.Image
-import com.luna.searchimage.ui.search.ImageListFragment
 import kotlinx.android.synthetic.main.image_list_item.view.*
 
 
 class ImageSearchResultAdapter(
-    private val context: Context,
+    private val bookmarkList: List<Bookmark>,
     private val imageList: PagedList<Image>,
-    val mItemClickListener:ItemClickListener
+    private val mItemClickListener:ItemClickListener
 ) : PagedListAdapter<Image, ImageSearchResultAdapter.ImageViewHolder>(IMAGE_COMPARATOR) {
 
     private val TAG = ImageSearchResultAdapter::class.java.simpleName
@@ -41,13 +43,14 @@ class ImageSearchResultAdapter(
         }
         image?.let { holder.bind(it) }
 
-
-        val resourceId = if (imageList[position]!!.isBookmarked) {
+       // image?.isBookmarked = checkIfBookmarked(image!!)
+        //Log.d(TAG, ">>> 북마크 된건지? ${image.isBookmarked}")
+        val resourceId =  if (image!!.isBookmarked) {
             R.drawable.ic_star
         } else {
             R.drawable.ic_star_border
         }
-         holder.itemView.bookmarkBtn.tag = position
+        holder.itemView.bookmarkBtn.tag = position
         holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
 
         holder.itemView.bookmarkBtn.setOnClickListener{
@@ -64,9 +67,22 @@ class ImageSearchResultAdapter(
 
                 //holder.itemView.bookmarkBtn.setBackgroundResource(resourceId)
             }
+
         }
 
     }
+
+    //만약 이미지[position]이 북마크리스트에 있으면 북마킹 된것임! 단순함.
+
+        fun checkIfBookmarked(image: Image) : Boolean {
+            Log.d(TAG, ">>> 비교대상 image: ${image.imageUrl}")
+            var result : Boolean = false
+           // val bookmark = Bookmark(0, image)//Bookmark(0, image.thumbnailUrl.toString(), image.imageUrl.toString(), image.siteName.toString(), true)
+           // if()
+            return result
+        }
+
+
 
     fun changeView(holder: ImageViewHolder, position: Int, resourceId: Int) {
         if(holder.itemView.bookmarkBtn.tag.equals(position))
@@ -88,7 +104,7 @@ class ImageSearchResultAdapter(
         var image: Image? = null
 
         fun bind(image: Image) {
-            Log.d(TAG, ">>image url: ${image.imgUrl}")
+            Log.d(TAG, ">>image url: ${image.imageUrl}")
 
             this.image = image
             Glide.with(thumb.context)
@@ -103,9 +119,9 @@ class ImageSearchResultAdapter(
     companion object {
         private val IMAGE_COMPARATOR = object : DiffUtil.ItemCallback<Image>() {
             override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean =
-                oldItem.imgUrl == newItem.imgUrl
+                oldItem.imageUrl == newItem.imageUrl
             override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean =
-                newItem.imgUrl == oldItem.imgUrl
+                newItem.imageUrl == oldItem.imageUrl
         }
     }
 }

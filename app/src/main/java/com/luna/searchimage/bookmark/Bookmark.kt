@@ -16,10 +16,16 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_NAME,
     indices = [Index(value = [IMAGE_URL, THUMB_URL], unique = true)])
 data class Bookmark(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int,
+    @ColumnInfo(name = "keyword") val keyword: String,
+    @ColumnInfo(name = "collection") val collection: String,
     @ColumnInfo(name = THUMB_URL) val thumbnailUrl: String,
-    @ColumnInfo(name = IMAGE_URL) val imageUrl:String,
+    @ColumnInfo(name = IMAGE_URL) val imageUrl: String,
+    @ColumnInfo(name = "width") val width:Int,
+    @ColumnInfo(name = "height") val height:Int,
     @ColumnInfo(name = "siteName") val siteName: String,
+    @ColumnInfo(name = "doc_url") val docUrl: String,
+    @ColumnInfo(name = "datetime") val datetime: String,
     @ColumnInfo(name = "isBookmarked") var isBookmarked: Boolean) : Parcelable {
 
 
@@ -31,3 +37,13 @@ data class Bookmark(
 
 }
 
+/*
+collection	String	컬렉션
+thumbnail_url	String	미리보기 이미지 URL
+image_url	String	이미지 URL
+width	Integer	이미지의 가로 길이
+height	Integer	이미지의 세로 길이
+display_sitename	String	출처
+doc_url	String	문서 URL
+datetime	Datetime	문서 작성시간. ISO 8601. [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].000+[tz]
+ */

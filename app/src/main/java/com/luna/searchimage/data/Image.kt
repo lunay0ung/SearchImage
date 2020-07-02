@@ -29,13 +29,12 @@ class Image {
 
  */
 data class Image (
-    //@PrimaryKey(autoGenerate = true) var id: Int,
     @field:SerializedName("collection")
     var collection: String? = null,
     @field:SerializedName("thumbnail_url")
     var thumbnailUrl: String? = null,
     @field:SerializedName("image_url")
-    var imgUrl: String? = null,
+    var imageUrl: String? = null,
     @field:SerializedName("width")
     var width: Int? = null,
     @field:SerializedName("height")
